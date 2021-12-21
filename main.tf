@@ -221,7 +221,7 @@ resource "aws_lambda_permission" "unqualified_alias_triggers" {
 resource "aws_lambda_event_source_mapping" "this" {
   for_each = var.create && var.create_function && !var.create_layer && var.create_unqualified_alias_allowed_triggers ? var.event_source_mapping : tomap({})
 
-  function_name = aws_lambda_function.this[0].arn
+  function_name = aws_lambda_function.this[0].publish ? aws_lambda_function.this[0].qualified_arn : aws_lambda_function.this[0].arn
 
   event_source_arn = each.value.event_source_arn
 
